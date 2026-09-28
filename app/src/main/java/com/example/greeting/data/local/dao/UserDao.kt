@@ -1,0 +1,17 @@
+package com.example.greeting.data.local.dao
+
+import androidx.room.*
+import com.example.greeting.data.local.entity.UserEntity
+
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM users WHERE uid = :uid")
+    suspend fun getUserById(uid: String): UserEntity?
+
+    @Query("SELECT * FROM users WHERE uid = :uid")
+    fun observeUserById(uid: String): kotlinx.coroutines.flow.Flow<UserEntity?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertUser(user: UserEntity)
+
+}
